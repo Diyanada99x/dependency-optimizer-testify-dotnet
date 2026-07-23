@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -8,20 +8,24 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <!-- Vulnerable: known moderate-severity advisory for Newtonsoft.Json < 13.0.1 -->
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
+    <!-- CVE-2024-21907 patched: upgraded from 12.0.1 to 13.0.3 -->
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
 
-    <!-- Deprecated: nuget.org marks this "Legacy", superseded by Microsoft.Data.SqlClient -->
-    <PackageReference Include="System.Data.SqlClient" Version="4.8.5" />
+    <!-- Deprecated: System.Data.SqlClient receives no further security patches.
+         TODO (manual): migrate to Microsoft.Data.SqlClient >= 5.2.2 and update
+         using directives in source (System.Data.SqlClient -> Microsoft.Data.SqlClient).
+         Patch bump applied: 4.8.5 -> 4.8.6 as interim safe update. -->
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.6" />
 
-    <!-- Outdated: several major versions behind current -->
-    <PackageReference Include="Microsoft.Extensions.Logging" Version="5.0.0" />
+    <!-- Upgraded from 5.0.0 to 8.0.1 to match TargetFramework net8.0.
+         Also resolves latent NU1605 conflict if EFCore.Sqlite 8.0.0 is enabled. -->
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.1" />
   </ItemGroup>
 
   <!--
-    Version conflict (NU1605): uncomment to see a build-breaking downgrade.
-    EFCore.Sqlite 8.0.0 needs Microsoft.Extensions.Logging >= 8.0.0 transitively,
-    which conflicts with the 5.0.0 pin above and fails restore until resolved.
+    Version conflict (NU1605) resolved: Microsoft.Extensions.Logging is now pinned
+    to 8.0.1, satisfying the transitive requirement of EFCore.Sqlite 8.0.0.
+    Uncomment the block below to enable SQLite support without restore failures.
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.0" />
   </ItemGroup>
