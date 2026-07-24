@@ -1,5 +1,5 @@
 using Newtonsoft.Json;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 
 var payload = JsonConvert.SerializeObject(new { message = "Hello, World!" });
 Console.WriteLine(payload);
