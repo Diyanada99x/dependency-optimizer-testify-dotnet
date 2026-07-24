@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -8,14 +8,17 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <!-- Vulnerable: known moderate-severity advisory for Newtonsoft.Json < 13.0.1 -->
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
+    <!-- Updated from 12.0.1 to 13.0.3 to fix CVE-2024-21907 (CVSS 7.5) -->
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
 
-    <!-- Deprecated: nuget.org marks this "Legacy", superseded by Microsoft.Data.SqlClient -->
-    <PackageReference Include="System.Data.SqlClient" Version="4.8.5" />
+    <!-- Migrated from System.Data.SqlClient 4.8.5 (deprecated, CVE-2024-0056) -->
+    <!-- to actively maintained Microsoft.Data.SqlClient 5.2.0 -->
+    <!-- NOTE: Requires namespace change in Program.cs line 2: -->
+    <!-- Change "using System.Data.SqlClient;" to "using Microsoft.Data.SqlClient;" -->
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="5.2.0" />
 
-    <!-- Outdated: several major versions behind current -->
-    <PackageReference Include="Microsoft.Extensions.Logging" Version="5.0.0" />
+    <!-- Updated from 5.0.0 to 8.0.0 to align with .NET 8.0 framework -->
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.0" />
   </ItemGroup>
 
   <!--
