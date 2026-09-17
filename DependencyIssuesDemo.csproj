@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -9,22 +9,15 @@
 
   <ItemGroup>
     <!-- Vulnerable: known moderate-severity advisory for Newtonsoft.Json < 13.0.1 -->
+    <!-- AUTO-FIX PENDING MANUAL REVIEW: CVE-2024-21907 requires upgrade to 13.0.4 (major bump) -->
     <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
 
-    <!-- Deprecated: nuget.org marks this "Legacy", superseded by Microsoft.Data.SqlClient -->
-    <PackageReference Include="System.Data.SqlClient" Version="4.8.5" />
+    <!-- AUTO-FIXED: System.Data.SqlClient patched from 4.8.5 to 4.9.1 (patch bump) -->
+    <!-- MANUAL ACTION REQUIRED: Migrate to Microsoft.Data.SqlClient (this package is deprecated) -->
+    <PackageReference Include="System.Data.SqlClient" Version="4.9.1" />
 
-    <!-- Outdated: several major versions behind current -->
-    <PackageReference Include="Microsoft.Extensions.Logging" Version="5.0.0" />
+    <!-- AUTO-FIXED: Removed Microsoft.Extensions.Logging (zero usages in source, EOL package) -->
+    <!-- If logging is needed in future, add Microsoft.Extensions.Logging >= 8.0.0 -->
   </ItemGroup>
-
-  <!--
-    Version conflict (NU1605): uncomment to see a build-breaking downgrade.
-    EFCore.Sqlite 8.0.0 needs Microsoft.Extensions.Logging >= 8.0.0 transitively,
-    which conflicts with the 5.0.0 pin above and fails restore until resolved.
-  <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.0" />
-  </ItemGroup>
-  -->
 
 </Project>
